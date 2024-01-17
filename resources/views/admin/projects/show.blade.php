@@ -18,9 +18,10 @@
             @else
             <p>No category</p>
             @endif
-            @if($project->technologies)
+            @if(count($project->technologies) > 0)
+            <p>Technologies:</p>
             @foreach($project->technologies as $technology)
-            <p>Technologies: {{ $project->technology->name }}</p>
+            <p>{{ $technology->name }}</p>
             @endforeach
             @else
             <p>No category</p>

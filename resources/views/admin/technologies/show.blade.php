@@ -10,11 +10,14 @@
                 {{ $technology->name }}
             </h2>
             <ul>
-                @foreach($technology->projects as $project)
-                <li>
-                    - {{$project->title}}
+                @forelse ($technology->projects as $project)
+                <li class="list-group-item">
+                    <a href="{{route('admin.projects.show', $project)}}"
+                        class="link-underline link-underline-opacity-0"> {{$project->name}}</a>
                 </li>
-                @endforeach
+                @empty
+                <li>No posts</li>
+                @endforelse
             </ul>
         </div>
     </div>

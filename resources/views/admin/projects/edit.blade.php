@@ -19,7 +19,7 @@
             <select name="category_id" id="category_id" class="form-select @error('category_id') is-invalid @enderror">
                 <option value="">Select a category</option>
                 @foreach ($categories as $category)
-                <option value="{{$category->id}}" {{old('category_id' , $project->category_id)==$project->category_id ?
+                <option value="{{$category->id}}" {{old('category_id' , $project->category_id)==$category->id ?
                     'selected'
                     : ''}}>
                     {{$category->name}}
@@ -35,9 +35,13 @@
                 <h6>Select technologies</h6>
                 @foreach($technologies as $technology)
                 <div class="form-check @error('technologies') is-invalid @enderror">
-                    <input class="form-check-input" type="checkbox" name="technologies[]"
-                        id="technologies-{{$technology->id}}" value="{{$technology->id}}"
-                        {{$project->technologies->contains($technology->id) ? 'checked' : '' }}>
+                    @if($errors->any())
+                    <input type="checkbox" class="form-check-input" name="technologies[]" value="{{ $technology->id }}"
+                        {{ in_array($technology->id, old('technologies', $project->technologies)) ? 'checked' : '' }}>
+                    @else
+                    <input type="checkbox" class="form-check-input" name="technologies[]" value="{{ $technology->id }}"
+                        {{ $post->technologies->contains($technology->id) ? 'checked' : '' }} >
+                    @endif
                     <label class="form-check-label">
                         {{$technology->name}}
                     </label>
