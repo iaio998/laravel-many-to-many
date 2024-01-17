@@ -33,7 +33,7 @@ class TechnologyController extends Controller
     public function store(StoreTechnologyRequest $request)
     {
         $data = $request->validated();
-        $slug = Str::slug($data['name'], '-');
+        $slug = Str::of($data['name'])->slug('-');
         $data['slug'] = $slug;
         $technology = Technology::create($data);
         return redirect()->route('admin.technologies.show', $technology);
@@ -61,12 +61,11 @@ class TechnologyController extends Controller
     public function update(UpdateTechnologyRequest $request, Technology $technology)
     {
         $data = $request->validated();
+        $data['slug'] = $technology->slug;
         if ($technology->name !== $data['name']) {
-            $slug = Str::slug($data['name'], '-');
-        } else {
-            $slug = $technology->slug;
+            $slug = Str::of($data['name'])->slug('-');
+            $data['slug'] = $slug;
         }
-        $data['slug'] = $slug;
         $technology->update($data);
         return redirect()->route('admin.technologies.show', $technology);
     }
@@ -77,6 +76,6 @@ class TechnologyController extends Controller
     public function destroy(Technology $technology)
     {
         $technology->delete();
-        return redirect()->route('admin.technologies.index');
+        return redirect()->route('admin.technologies.index')->with('message', "$technology->name eliminato con successo");
     }
 }

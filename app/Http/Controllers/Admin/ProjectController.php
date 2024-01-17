@@ -79,23 +79,29 @@ class ProjectController extends Controller
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $data = $request->validated();
-        $data['user_id'] = Auth::id();
+        $data['slug'] = $project->slug;
+
         if ($project->title !== $data['title']) {
             $slug = Project::getSlug($data['title'], '-');
-        } else {
-            $slug = $project->slug;
+            $data['slug'] = $slug;
         }
-        $data['slug'] = $slug;
+
+        $data['user_id'] = $project->user_id;
+
         if ($request->hasFile('image')) {
             if (Storage::exists($project->image)) {
                 Storage::delete($project->image);
             }
-            $path = Storage::put('images', $request->image);
+            $path = Storage::put('images', $data['image']);
             $data['image'] = $path;
         }
+
         $project->update($data);
+
         if ($request->has('technologies')) {
             $project->technologies()->sync($request->technologies);
+        } else {
+            $project->tags()->detach();
         }
         return redirect()->route('admin.projects.show', $project);
     }
