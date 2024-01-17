@@ -54,6 +54,17 @@
                                 </li>
                             </ul>
                         </div>
+                        <div class="col">
+                            <h5>Technologies</h5>
+                            <ul>
+                                <li>
+                                    <a href="{{ route('admin.technologies.index')}}"> All technologies</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.technologies.create')}}"> Create new</a>
+                                </li>
+                            </ul>
+                        </div>
                         @endif
                     </div>
                 </div>

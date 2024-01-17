@@ -18,6 +18,13 @@
             @else
             <p>No category</p>
             @endif
+            @if($project->technologies)
+            @foreach($project->technologies as $technology)
+            <p>Technologies: {{ $project->technology->name }}</p>
+            @endforeach
+            @else
+            <p>No category</p>
+            @endif
             <a class="btn btn-primary" href="{{route('admin.projects.show', $project)}}">Show more</a>
         </div>
         <form action="{{route('admin.projects.destroy', $project)}}" method="POST">

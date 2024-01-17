@@ -31,6 +31,24 @@
             @enderror
         </div>
         <div class="mb-3">
+            <div class="form-group">
+                <h6>Select technologies</h6>
+                @foreach($technologies as $technology)
+                <div class="form-check @error('technologies') is-invalid @enderror">
+                    <input class="form-check-input" type="checkbox" name="technologies[]"
+                        id="technologies-{{$technology->id}}" value="{{$technology->id}}"
+                        {{$project->technologies->contains($technology->id) ? 'checked' : '' }}>
+                    <label class="form-check-label">
+                        {{$technology->name}}
+                    </label>
+                </div>
+                @endforeach
+                @error('technologies')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="mb-3">
             <label for="body">Body:</label>
             <textarea name="body" class="form-control @error('body') is-invalid @enderror" id="body" cols="30" rows="10"
                 value="{{old('body', $project->body)}}"></textarea>
